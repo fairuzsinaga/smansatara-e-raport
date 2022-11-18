@@ -14,6 +14,14 @@ class SiswaResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'wali_siswa_id' => $this->wali_siswa_id,
+            'nis' => $this->nis,
+            'nisn' => $this->nisn,
+            'name' => $this->siswa_name,
+            'gender' => $this->jenis_kelamin,
+            'address' => $this->alamat
+        ];
     }
 }

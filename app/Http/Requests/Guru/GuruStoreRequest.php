@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Guru;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GuruStoreRequest extends FormRequest
@@ -24,7 +25,7 @@ class GuruStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'nip' => 'required',
+            'nip' => ['required', Rule::unique('gurus')],
             'guru_name' => 'required',
             'jenis_kelamin' => 'required',
             'alamat' => 'required',
