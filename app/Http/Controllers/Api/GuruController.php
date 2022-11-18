@@ -2,49 +2,51 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
+use Throwable;
 use App\Models\Guru;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Throw_;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GuruResource;
+use App\Http\Requests\Guru\GuruStoreRequest;
+use App\Http\Requests\Guru\GuruUpdateRequest;
 
 class GuruController extends Controller
 {
 
     public function index()
     {
-        $data = Guru::all();
-        return response()->json(new GuruResource(true, 'success', $data), 200);
+        return GuruResource::collection(Guru::all());
     }
 
 
-    public function store(Request $request)
+    public function store(GuruStoreRequest $request)
     {
-        //
+        Guru::create($request->validated());
+        return response()->json([
+            'message' => 'guru is updated'
+        ]);
     }
 
 
-    public function show($id)
+    public function show(Guru $guru)
     {
-        $data = Guru::find($id);
-        if ($data) {
-            return response()->json(new GuruResource(true, 'success', $data), 200);
-        }
-        return response()->json(new GuruResource(true, 'not found', $data), 404);
+        return new GuruResource($guru);
     }
 
 
-    public function update(Request $request, $id)
+    public function update(GuruUpdateRequest $request, Guru $guru)
     {
-        //
+        $guru->update($request->validated());
     }
 
 
-    public function destroy($id)
+    public function destroy(Guru $guru)
     {
-        $data = Guru::destroy($id);
-        if($data) {
-            return response()->json(new GuruResource(true, 'success', $data));
-        }
-        return response()->json(new GuruResource(false, 'error', $data), 404);
+        $guru->delete();
+        return response()->json([
+            'message' => 'guru is deleted'
+        ]);
     }
 }

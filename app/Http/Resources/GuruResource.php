@@ -6,15 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class GuruResource extends JsonResource
 {
-    public $status;
-    public $message;
-
-    public function __construct($status, $message, $resource)
-    {
-        parent::__construct($resource);
-        $this->status = $status;
-        $this->message = $message;
-    }
     /**
      * Transform the resource into an array.
      *
@@ -24,9 +15,10 @@ class GuruResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'status' => $this->status,
-            'message' => $this->message,
-            'data' => $this->resource
+            'nip' => $this->nip,
+            'name' => $this->guru_name,
+            'jenis_kelamin' => $this->jenis_kelamin,
+            'alamat' => $this->alamat
         ];
     }
 }
